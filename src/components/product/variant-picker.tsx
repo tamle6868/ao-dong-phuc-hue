@@ -36,6 +36,8 @@ export function VariantPicker({
     );
     if (matched) {
       onChange?.({ color: matched.color, colorHex: matched.colorHex, size: matched.size });
+    } else {
+      onChange?.(null);
     }
   }
 
