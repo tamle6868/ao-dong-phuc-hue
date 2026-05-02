@@ -132,7 +132,7 @@ export function LeadForm({ source, variant, className }: FormProps) {
             aria-describedby={errorMessage ? "lead-form-error" : undefined}
             inputMode="tel"
             autoComplete="tel"
-            pattern="^(0|\+84)[0-9]{9,10}$"
+            pattern={"^(0|\\+84)[0-9]{9,10}$"}
             value={data.phone}
             onChange={(e) =>
               setData({
