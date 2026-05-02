@@ -115,6 +115,8 @@ export function LeadForm({ source, variant, className }: FormProps) {
           <Input
             id="lead-name"
             required
+            aria-required="true"
+            autoComplete="name"
             value={data.fullName}
             onChange={(e) => setData({ ...data, fullName: e.target.value })}
             placeholder="VD: Nguyễn Văn A"
@@ -126,7 +128,10 @@ export function LeadForm({ source, variant, className }: FormProps) {
             id="lead-phone"
             type="tel"
             required
+            aria-required="true"
+            aria-describedby={errorMessage ? "lead-form-error" : undefined}
             inputMode="tel"
+            autoComplete="tel"
             pattern="^(0|\+84)[0-9]{9,10}$"
             value={data.phone}
             onChange={(e) =>
@@ -143,6 +148,7 @@ export function LeadForm({ source, variant, className }: FormProps) {
             <Label htmlFor="lead-company">Công ty / Đơn vị</Label>
             <Input
               id="lead-company"
+              autoComplete="organization"
               value={data.company}
               onChange={(e) => setData({ ...data, company: e.target.value })}
               placeholder="VD: Công ty TNHH ABC"
@@ -173,7 +179,13 @@ export function LeadForm({ source, variant, className }: FormProps) {
       </div>
 
       {errorMessage && (
-        <p className="mt-3 text-sm text-destructive">{errorMessage}</p>
+        <p
+          id="lead-form-error"
+          role="alert"
+          className="mt-3 text-sm text-destructive"
+        >
+          {errorMessage}
+        </p>
       )}
 
       <Button
