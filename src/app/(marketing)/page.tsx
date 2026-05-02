@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Sparkles, Truck, ShieldCheck, Star } from "lucide-react";
-import { categories } from "@/data/categories";
-import { getFeaturedProducts } from "@/data/products";
+import { getCategories } from "@/lib/data/categories";
+import { getFeaturedProducts } from "@/lib/data/products";
 import { partners, testimonials } from "@/data/partners";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -12,8 +12,11 @@ import { TrustBar } from "@/components/landing/trust-bar";
 import { LeadForm } from "@/components/landing/lead-form";
 import { BUSINESS_INFO } from "@/lib/constants";
 
-export default function HomePage() {
-  const featured = getFeaturedProducts(8);
+export default async function HomePage() {
+  const [categories, featured] = await Promise.all([
+    getCategories(),
+    getFeaturedProducts(8),
+  ]);
 
   return (
     <>

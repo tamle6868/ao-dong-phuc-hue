@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { products, getProductsByCategory } from "@/data/products";
-import { categories } from "@/data/categories";
+import { getAllProducts, getProductsByCategory } from "@/lib/data/products";
+import { getCategories } from "@/lib/data/categories";
 import { ProductGrid } from "@/components/product/product-grid";
 import { Badge } from "@/components/ui/badge";
 import { buildMetadata } from "@/lib/seo";
@@ -13,6 +13,7 @@ type Props = { searchParams: Promise<SearchParamsValue> };
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const sp = await searchParams;
   const slug = typeof sp["danh-muc"] === "string" ? sp["danh-muc"] : undefined;
+  const categories = await getCategories();
   const category = categories.find((c) => c.slug === slug);
   const title = category ? `${category.name}` : "Tất cả sản phẩm";
   const description = category
@@ -28,7 +29,10 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 export default async function ProductsPage({ searchParams }: Props) {
   const sp = await searchParams;
   const activeSlug = typeof sp["danh-muc"] === "string" ? sp["danh-muc"] : undefined;
-  const list = activeSlug ? getProductsByCategory(activeSlug) : products;
+  const [list, categories] = await Promise.all([
+    activeSlug ? getProductsByCategory(activeSlug) : getAllProducts(),
+    getCategories(),
+  ]);
   const activeCategory = categories.find((c) => c.slug === activeSlug);
 
   return (
