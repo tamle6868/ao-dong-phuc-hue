@@ -75,7 +75,10 @@ export default async function ProductDetailPage({ params }: Props) {
           ))}
         </nav>
 
-        <div className="mt-4 grid gap-6 md:grid-cols-2 md:gap-10">
+        <div
+          key={product.id}
+          className="mt-4 grid gap-6 md:grid-cols-2 md:gap-10"
+        >
           {/* GALLERY */}
           <ProductGallery images={product.images} alt={product.name} />
 

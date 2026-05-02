@@ -17,6 +17,11 @@ const ICONS = {
 
 export function BottomNav() {
   const pathname = usePathname();
+  // Hide on product detail pages — AddToCartBar takes over the bottom slot.
+  const isProductDetail =
+    pathname?.startsWith("/san-pham/") && pathname !== "/san-pham/";
+  if (isProductDetail) return null;
+
   return (
     <nav
       aria-label="Điều hướng dưới"
