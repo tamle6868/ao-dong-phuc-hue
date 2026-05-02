@@ -9,21 +9,27 @@ type BuildMetadataInput = {
   noIndex?: boolean;
 };
 
-const TITLE_TEMPLATE = (title: string) => `${title} | ${BUSINESS_INFO.name}`;
+/**
+ * Apply the brand suffix manually for social-card titles (`og:title`,
+ * `twitter:title`). The Metadata API's `title.template` (defined in the root
+ * layout) handles the `<title>` tag automatically — so the page-level `title`
+ * is passed through as a plain string to avoid double-wrapping the brand.
+ */
+const SOCIAL_TITLE = (title: string) => `${title} | ${BUSINESS_INFO.name}`;
 
 export function buildMetadata(input: BuildMetadataInput): Metadata {
   const description = input.description ?? BUSINESS_INFO.description;
   const url = `${SITE.url}${input.path ?? ""}`;
   const image = input.image ?? SITE.defaultOgImage;
-  const title = TITLE_TEMPLATE(input.title);
+  const socialTitle = SOCIAL_TITLE(input.title);
 
   return {
-    title,
+    title: input.title,
     description,
     metadataBase: new URL(SITE.url),
     alternates: { canonical: url },
     openGraph: {
-      title,
+      title: socialTitle,
       description,
       url,
       siteName: BUSINESS_INFO.name,
@@ -34,13 +40,13 @@ export function buildMetadata(input: BuildMetadataInput): Metadata {
           url: image.startsWith("http") ? image : `${SITE.url}${image}`,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: socialTitle,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: socialTitle,
       description,
       images: [image.startsWith("http") ? image : `${SITE.url}${image}`],
     },

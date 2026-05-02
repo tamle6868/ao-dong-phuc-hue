@@ -129,7 +129,12 @@ export function LeadForm({ source, variant, className }: FormProps) {
             inputMode="tel"
             pattern="^(0|\+84)[0-9]{9,10}$"
             value={data.phone}
-            onChange={(e) => setData({ ...data, phone: e.target.value })}
+            onChange={(e) =>
+              setData({
+                ...data,
+                phone: e.target.value.replace(/[\s.\-()]/g, ""),
+              })
+            }
             placeholder="VD: 0905 000 000"
           />
         </div>
