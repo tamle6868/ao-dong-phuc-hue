@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { BUSINESS_INFO } from "@/lib/constants";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { StickyQuoteCTA } from "@/components/marketing/sticky-quote-cta";
+import { AnimatedUspGrid } from "@/components/marketing/animated-usp";
 
 const FAQ_ITEMS = [
   {
@@ -50,22 +51,22 @@ export const metadata: Metadata = buildMetadata({
 
 const TRUST_FEATURES = [
   {
-    icon: Award,
+    icon: <Award />,
     title: "10+ năm kinh nghiệm B2B",
     desc: "Đối tác may đồng phục cho 200+ doanh nghiệp tại miền Trung — từ khách sạn 5 sao đến tập đoàn công nghệ.",
   },
   {
-    icon: Clock,
+    icon: <Clock />,
     title: "Mẫu 3D trong 30 phút",
     desc: "Designer phối logo brand lên áo thật và gửi file 3D — bạn duyệt trước khi sản xuất.",
   },
   {
-    icon: ShieldCheck,
+    icon: <ShieldCheck />,
     title: "Cam kết chất vải",
     desc: "Cá sấu cotton 65/35 220 GSM xuất khẩu — bảo hành thêu / in 12 tháng. Đổi mẫu lỗi 1-1.",
   },
   {
-    icon: Users,
+    icon: <Users />,
     title: "Hỗ trợ đặt hàng linh hoạt",
     desc: "Đặt thêm sau lần đầu giữ giá đến 12 tháng. Có hợp đồng B2B, xuất hóa đơn VAT.",
   },
@@ -154,22 +155,11 @@ export default function DoanhNghiepLandingPage() {
           </h2>
         </header>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {TRUST_FEATURES.map((f) => (
-            <div
-              key={f.title}
-              className="flex gap-4 rounded-xl border border-border bg-background p-5 shadow-[var(--shadow-soft)]"
-            >
-              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground">
-                <f.icon className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-bold">{f.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{f.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <AnimatedUspGrid
+          items={TRUST_FEATURES}
+          columns={2}
+          className="mt-8"
+        />
       </section>
 
       <PricingTable />
