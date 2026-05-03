@@ -8,6 +8,40 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { buildMetadata } from "@/lib/seo";
 import { BUSINESS_INFO } from "@/lib/constants";
+import { PricingCalculator } from "@/components/marketing/pricing-calculator";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { StickyQuoteCTA } from "@/components/marketing/sticky-quote-cta";
+
+const PRICING_TIERS = [
+  { qty: 11, price: 165000, label: "Đội bóng phong trào" },
+  { qty: 20, price: 145000 },
+  { qty: 30, price: 130000, label: "Phổ biến nhất" },
+  { qty: 50, price: 115000 },
+  { qty: 100, price: 99000, label: "Giá tốt nhất" },
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "Đặt 11 áo thì giá có ưu đãi không?",
+    a: "Được. Đó chính là MOQ. Biểu giá bậc thang ít nhất là 165k/áo cho đúng 11 áo, giảm dần khi số lượng tăng. Từ 100 áo chỉ 99k/áo.",
+  },
+  {
+    q: "In tên và số có mất phí không?",
+    a: "Miễn phí in tên + số cho tất cả đơn. Bao gồm cả phối font, đổ màu theo logo, in patch tay áo. Chỉ phụ thu khi bạn yêu cầu thêu chữ nổi.",
+  },
+  {
+    q: "Vải mè kim cương khác vải mè thường như thế nào?",
+    a: "Vải mè kim cương (180 GSM) có cấu trúc dệt kết dày hơn, co giãn 4 chiều, độ bền cao. Được xuất khẩu sang Hàn, không xù sau 100+ lần giặt. Vải mè thường (140 GSM) mỏng, dễ nhăn.",
+  },
+  {
+    q: "Mình ở tỉnh xa, giao hàng như thế nào?",
+    a: "Giao toàn quốc qua GHTK / GHN / Vietnam Post 3-5 ngày. Miễn phí ship Huế - Đà Nẵng - Quảng Trị. Tỉnh xa phí ship theo bảng giá gốc của đơn vị vận chuyển.",
+  },
+  {
+    q: "Đội mình có logo nhưng không có file thiết kế, làm sao?",
+    a: "Bạn gửi ảnh chụp logo (kể cả ảnh mờ hoặc chụp từ áo cũ). Designer in-house sẽ vẽ lại logo vector miễn phí, cùng bạn chốt form, chỉnh màu, phối áo.",
+  },
+];
 
 export const metadata: Metadata = buildMetadata({
   title: "Áo bóng đá thiết kế cao cấp — Vải mè 4 chiều, in tên số sắc nét",
@@ -147,6 +181,22 @@ export default function AoBongDaLandingPage() {
         </div>
       </section>
 
+      {/* PRICING CALCULATOR */}
+      <section className="mx-auto max-w-3xl px-4 py-14">
+        <header className="mb-6 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-primary">
+            Bảng giá đội bóng
+          </p>
+          <h2 className="mt-2 font-display text-2xl tracking-wide md:text-4xl">
+            TÍNH GIÁ NHANH · KHÔNG CẦN ĐỢI BÁO GIÁ
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Nhập số lượng áo của đội → ra ngay đơn giá và tổng tiền. Đã bao gồm in tên + số.
+          </p>
+        </header>
+        <PricingCalculator tiers={PRICING_TIERS} unitLabel="áo" />
+      </section>
+
       {/* PROCESS */}
       <section className="bg-muted/40 py-14">
         <div className="mx-auto max-w-5xl px-4">
@@ -179,6 +229,19 @@ export default function AoBongDaLandingPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="mx-auto max-w-3xl px-4 py-14">
+        <header className="mb-6 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-primary">
+            FAQ
+          </p>
+          <h2 className="mt-2 font-display text-2xl tracking-wide md:text-4xl">
+            ĐỘI TƯỞNG THƯỜNG HỘI CHÚNG MÌNH
+          </h2>
+        </header>
+        <FaqAccordion items={FAQ_ITEMS} />
+      </section>
+
       {/* LEAD FORM */}
       <section id="bao-gia" className="mx-auto max-w-2xl px-4 py-14">
         <LeadForm source="ao-bong-da-thiet-ke" variant="quote" />
@@ -206,6 +269,8 @@ export default function AoBongDaLandingPage() {
           </a>
         </div>
       </section>
+
+      <StickyQuoteCTA ctaHref="#bao-gia" ctaLabel="Đặt đội bóng" />
     </>
   );
 }

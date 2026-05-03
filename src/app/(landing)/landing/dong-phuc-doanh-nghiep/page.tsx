@@ -11,6 +11,35 @@ import { partners, testimonials } from "@/data/partners";
 import { buildMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { BUSINESS_INFO } from "@/lib/constants";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
+import { StickyQuoteCTA } from "@/components/marketing/sticky-quote-cta";
+
+const FAQ_ITEMS = [
+  {
+    q: "Mẫu 3D miễn phí có thật sự miễn phí không?",
+    a: "Miễn phí hoàn toàn. Designer sẽ phối logo brand lên áo thật và gửi file 3D trong 30 phút (giờ hành chính). Bạn duyệt rồi mới quyết định đặt hay không — không ràng buộc.",
+  },
+  {
+    q: "Số lượng tối thiểu cho đồng phục công ty là bao nhiêu?",
+    a: "Tầm 20 áo trở lên cho phép đổ logo thêu / in chuyển nhiệt miễn phí. Đơn dưới 20 áo vẫn được, chỉ phụ thu logo.",
+  },
+  {
+    q: "Có xuất hóa đơn VAT và hợp đồng không?",
+    a: "Có. Mình xuất hóa đơn VAT đầy đủ cho doanh nghiệp, kết hợp hợp đồng kinh tế có điều khoản bảo mật thiết kế và bảo hành đổi trả.",
+  },
+  {
+    q: "Đặt thêm sau lần đầu có bị đổi giá không?",
+    a: "Giữ nguyên giá trong 12 tháng cho các đơn lặp. Designer lưu file gốc, bạn cần thêm 5 áo cho nhân viên mới cũng OK — không bắt đặt lại số lượng lớn.",
+  },
+  {
+    q: "Vải cá sấu 220 GSM khác loại vải polo thường như thế nào?",
+    a: "Vải cá sấu cotton 65/35 (220 GSM) có cấu trúc dệt kiểu tổ ong, dày và đứng form, không nhăn khi giặt. Chịu được ủi nhiệt độ cao. Polo thường (180 GSM) mỏng, mềm hơn nhưng nhanh nhão.",
+  },
+  {
+    q: "Thêu hay in: loại nào bền hơn cho logo brand?",
+    a: "Thêu bền hơn (không phai theo thời gian, cảm giác cao cấp). In chuyển nhiệt rẻ hơn, phù hợp logo nhiều màu / gradient. Designer sẽ tư vấn theo logo của bạn.",
+  },
+];
 
 export const metadata: Metadata = buildMetadata({
   title: "Đồng phục doanh nghiệp cao cấp tại Huế — Mẫu 3D miễn phí 30 phút",
@@ -59,7 +88,10 @@ export default function DoanhNghiepLandingPage() {
           <div className="space-y-5">
             <Badge variant="primary">B2B · Đồng phục công ty</Badge>
             <h1 className="font-display text-4xl leading-[0.95] tracking-wide md:text-6xl">
-              ĐỒNG PHỤC <span className="text-primary">CAO CẤP</span>
+              ĐỒNG PHỤC{" "}
+              <span className="bg-gradient-to-r from-primary via-rose-400 to-amber-300 bg-clip-text text-transparent">
+                CAO CẤP
+              </span>
               <br />
               CHO DOANH NGHIỆP CỦA BẠN
             </h1>
@@ -186,6 +218,19 @@ export default function DoanhNghiepLandingPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="mx-auto max-w-3xl px-4 py-14">
+        <header className="mb-6 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-primary">
+            FAQ B2B
+          </p>
+          <h2 className="mt-2 font-display text-2xl tracking-wide md:text-4xl">
+            DOANH NGHIỆP THƯỜNG HỘI
+          </h2>
+        </header>
+        <FaqAccordion items={FAQ_ITEMS} />
+      </section>
+
       {/* LEAD FORM 3D */}
       <section id="mau-3d" className="mx-auto max-w-2xl px-4 py-14">
         <LeadForm source="dong-phuc-doanh-nghiep" variant="mockup3d" />
@@ -213,6 +258,8 @@ export default function DoanhNghiepLandingPage() {
           </a>
         </div>
       </section>
+
+      <StickyQuoteCTA ctaHref="#mau-3d" ctaLabel="Nhận mẫu 3D" />
     </>
   );
 }

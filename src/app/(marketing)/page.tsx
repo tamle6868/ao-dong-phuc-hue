@@ -1,6 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Sparkles, Truck, ShieldCheck, Star } from "lucide-react";
+import {
+  ArrowRight,
+  Sparkles,
+  Star,
+  Users,
+  Clock,
+  Award,
+} from "lucide-react";
 import { getCategories } from "@/lib/data/categories";
 import { getFeaturedProducts } from "@/lib/data/products";
 import { partners, testimonials } from "@/data/partners";
@@ -10,7 +17,35 @@ import { Badge } from "@/components/ui/badge";
 import { ProductGrid } from "@/components/product/product-grid";
 import { TrustBar } from "@/components/landing/trust-bar";
 import { LeadForm } from "@/components/landing/lead-form";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { BUSINESS_INFO } from "@/lib/constants";
+
+const HOME_FAQ = [
+  {
+    q: "Mình đặt số lượng ít (10-15 áo) có được không?",
+    a: "Được. MOQ chỉ từ 11 áo cho đội bóng phong trào, và từ 20 áo cho đồng phục doanh nghiệp. Càng nhiều, đơn giá càng ưu đãi — bậc giá hạ dần theo số lượng.",
+  },
+  {
+    q: "Đặt áo mất bao lâu từ lúc chốt mẫu?",
+    a: "Trung bình 5-7 ngày làm việc. Quy trình: 1 ngày phối mẫu 3D → 1 ngày duyệt → 3 ngày may + in → 1 ngày QC + giao. Cần gấp? Bạn nhắn đội ngũ, mình có gói làm nhanh 48h trong khu vực Huế — Đà Nẵng.",
+  },
+  {
+    q: "Vải có bền không? Giặt máy được không?",
+    a: "Vải mè kim cương 4 chiều (180 GSM) chúng mình dùng được xuất khẩu sang Hàn — chịu được giặt máy thường xuyên, không phai màu, không xù sau hàng trăm lần. Đặc biệt in chuyển nhiệt bảo hành 12 tháng không bong tróc.",
+  },
+  {
+    q: "Mình không biết thiết kế, cần thuê designer riêng không?",
+    a: "Không. Designer in-house hỗ trợ phối 4 mẫu miễn phí theo logo / tên đội / màu sắc bạn yêu cầu. Chỉnh sửa tự do đến khi bạn ưng ý. Không phụ thu thêm.",
+  },
+  {
+    q: "Thanh toán ra sao? Có cọc không?",
+    a: "Đặt cọc 30% sau khi duyệt mẫu, thanh toán hết khi nhận hàng. Hỗ trợ chuyển khoản, tiền mặt, COD tại Huế - Đà Nẵng. Doanh nghiệp có thể xuất hóa đơn VAT.",
+  },
+  {
+    q: "Đối với áo lớp / kỷ niệm thì sao? Giá có ưu đãi không?",
+    a: "Mình có gói riêng cho áo lớp 12 — đại học, giá từ 95k/áo (in số + tên). Phối graphic vintage / streetwear / club-style theo yêu cầu. Đặt sớm 2 tuần trước lễ bế giảng để kịp may.",
+  },
+];
 
 export default async function HomePage() {
   const [categories, featured] = await Promise.all([
@@ -24,10 +59,19 @@ export default async function HomePage() {
       <section className="relative isolate overflow-hidden bg-accent text-accent-foreground">
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 opacity-30"
+          className="absolute inset-0 -z-10 opacity-40"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 20% 20%, rgba(139,14,14,0.6) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(139,14,14,0.4) 0%, transparent 60%)",
+              "radial-gradient(circle at 15% 15%, rgba(220,38,38,0.55) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(139,14,14,0.45) 0%, transparent 65%), radial-gradient(circle at 50% 100%, rgba(255,200,150,0.12) 0%, transparent 60%)",
+          }}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.6) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
           }}
         />
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 md:grid-cols-2 md:gap-12 md:px-6 md:py-20">
@@ -37,13 +81,16 @@ export default async function HomePage() {
               Đồng phục Premium #1 tại Huế
             </Badge>
             <h1 className="font-display text-4xl leading-[0.95] tracking-wide md:text-6xl lg:text-7xl">
-              ĐỒNG PHỤC <span className="text-primary">CAO CẤP</span>
+              ĐỒNG PHỤC{" "}
+              <span className="bg-gradient-to-r from-primary via-rose-400 to-amber-300 bg-clip-text text-transparent">
+                CAO CẤP
+              </span>
               <br />
               CHO ĐỘI CỦA BẠN
             </h1>
-            <p className="max-w-md text-base text-white/75 md:text-lg">
-              Áo bóng đá thiết kế, đồng phục doanh nghiệp, áo lớp — vải xịn, in
-              ép sắc nét, giao hàng toàn quốc 3-7 ngày.
+            <p className="max-w-md text-base text-white/80 md:text-lg">
+              Áo bóng đá, đồng phục doanh nghiệp, áo lớp — vải xịn, in sắc nét,
+              giao 3-7 ngày. <strong className="text-white">287 đội đã đặt trong 30 ngày qua.</strong>
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <Link
@@ -63,19 +110,21 @@ export default async function HomePage() {
                 Xem sản phẩm
               </Link>
             </div>
-            <div className="flex flex-wrap gap-x-6 gap-y-3 pt-4 text-sm text-white/70">
-              <div className="flex items-center gap-1.5">
-                <Star className="h-4 w-4 fill-warning text-warning" />
-                <strong className="text-white">4.9/5</strong> · 1.240 đơn
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Truck className="h-4 w-4" />
-                Miễn ship Huế · Đà Nẵng
-              </div>
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="h-4 w-4" />
-                Bảo hành in 12 tháng
-              </div>
+            <div className="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4 sm:gap-x-6">
+              {[
+                { icon: Star, value: "4.9/5", label: "156 reviews" },
+                { icon: Users, value: "1.240+", label: "đơn giao" },
+                { icon: Clock, value: "5-7 ngày", label: "giao toàn quốc" },
+                { icon: Award, value: "12 tháng", label: "BH in ép" },
+              ].map(({ icon: Icon, value, label }) => (
+                <div key={value} className="flex items-start gap-2">
+                  <Icon className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
+                  <div className="leading-tight">
+                    <p className="text-sm font-bold text-white">{value}</p>
+                    <p className="text-[11px] text-white/60">{label}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -88,6 +137,9 @@ export default async function HomePage() {
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
+            <div className="absolute left-3 top-3 rounded-md bg-warning/95 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-black">
+              Hot · 287 đơn / 30 ngày
+            </div>
           </div>
         </div>
       </section>
@@ -173,6 +225,9 @@ export default async function HomePage() {
             <h2 className="mt-2 font-display text-2xl tracking-wide md:text-4xl">
               ĐƯỢC TIN CHỌN BỞI 1.200+ ĐỘI & DOANH NGHIỆP
             </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              4.9/5 trung bình · 156 đánh giá · 99% khách hàng quay lại
+            </p>
           </header>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {testimonials.map((t) => (
@@ -207,8 +262,24 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="mx-auto max-w-3xl px-4 py-14">
+        <header className="mb-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-primary">
+            Câu hỏi thường gặp
+          </p>
+          <h2 className="mt-2 font-display text-2xl tracking-wide md:text-4xl">
+            BẠN THƯỜNG HỎI CHÚNG MÌNH
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Không tìm thấy câu trả lời? Gọi {BUSINESS_INFO.phone} — tư vấn viên trả lời trong 1 phút.
+          </p>
+        </header>
+        <FaqAccordion items={HOME_FAQ} />
+      </section>
+
       {/* CTA + LEAD */}
-      <section className="mx-auto max-w-5xl px-4 py-14">
+      <section id="bao-gia" className="mx-auto max-w-5xl px-4 py-14">
         <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
           <div className="space-y-4">
             <p className="text-xs font-bold uppercase tracking-widest text-primary">
