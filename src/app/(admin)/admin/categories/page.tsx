@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { FolderTree } from "lucide-react";
+import Link from "next/link";
+import { FolderTree, Plus } from "lucide-react";
 
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { getAdminSupabase } from "@/lib/supabase/admin";
+import { deleteCategory } from "@/lib/admin/categories.actions";
 
 import { EmptyState } from "../_components/empty-state";
 import { PageHeader } from "../_components/page-header";
@@ -22,7 +26,18 @@ export default async function AdminCategoriesPage() {
     <div className="mx-auto max-w-4xl space-y-6">
       <PageHeader
         title="Danh mục"
-        description="Cấu trúc danh mục sản phẩm cho mục lục đầu menu."
+        description="Cấu trúc danh mục sản phẩm cho menu shop."
+        actions={
+          supabase ? (
+            <Link
+              href="/admin/categories/new"
+              className={cn(buttonVariants({ variant: "primary", size: "md" }))}
+            >
+              <Plus className="h-4 w-4" />
+              Thêm danh mục
+            </Link>
+          ) : null
+        }
       />
 
       {error && (
@@ -35,7 +50,7 @@ export default async function AdminCategoriesPage() {
         <EmptyState
           icon={FolderTree}
           title="Chưa có danh mục nào"
-          description="Sau khi apply Supabase migrations + seed dữ liệu, danh mục sẽ hiện tại đây."
+          description="Click 'Thêm danh mục' để bắt đầu."
         />
       ) : (
         <div className="overflow-hidden rounded-xl border border-border bg-card">
@@ -54,6 +69,9 @@ export default async function AdminCategoriesPage() {
                 <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Sort
                 </th>
+                <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Thao tác
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -68,6 +86,25 @@ export default async function AdminCategoriesPage() {
                   </td>
                   <td className="px-4 py-3 text-right font-mono text-xs">
                     {c.sort_order}
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Link
+                        href={`/admin/categories/${c.id}/edit`}
+                        className="rounded-md border border-border px-2.5 py-1 text-xs font-medium hover:bg-muted"
+                      >
+                        Sửa
+                      </Link>
+                      <form action={deleteCategory}>
+                        <input type="hidden" name="id" value={c.id} />
+                        <button
+                          type="submit"
+                          className="rounded-md border border-destructive/40 px-2.5 py-1 text-xs font-medium text-destructive hover:bg-destructive/10"
+                        >
+                          Xoá
+                        </button>
+                      </form>
+                    </div>
                   </td>
                 </tr>
               ))}

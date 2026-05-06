@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import { ShoppingBag } from "lucide-react";
+import Link from "next/link";
+import { Plus, ShoppingBag } from "lucide-react";
 
-import { formatPriceVND } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { cn, formatPriceVND } from "@/lib/utils";
 import { getAdminSupabase } from "@/lib/supabase/admin";
+import {
+  deleteProduct,
+  toggleProductActive,
+} from "@/lib/admin/products.actions";
 
 import { EmptyState } from "../_components/empty-state";
 import { PageHeader } from "../_components/page-header";
@@ -23,7 +29,18 @@ export default async function AdminProductsPage() {
     <div className="mx-auto max-w-6xl space-y-6">
       <PageHeader
         title="Sản phẩm"
-        description="Toàn bộ sản phẩm trong shop. Click để chỉnh sửa (sắp ra mắt)."
+        description="Quản lý toàn bộ sản phẩm. Thêm / sửa / ẩn / xoá."
+        actions={
+          supabase ? (
+            <Link
+              href="/admin/products/new"
+              className={cn(buttonVariants({ variant: "primary", size: "md" }))}
+            >
+              <Plus className="h-4 w-4" />
+              Thêm sản phẩm
+            </Link>
+          ) : null
+        }
       />
 
       {error && (
@@ -36,7 +53,7 @@ export default async function AdminProductsPage() {
         <EmptyState
           icon={ShoppingBag}
           title="Chưa có sản phẩm nào"
-          description="Apply Supabase migrations + seed dữ liệu để hiển thị tại đây. CMS thêm/sửa sản phẩm sẽ có ở iteration tiếp theo."
+          description="Click 'Thêm sản phẩm' để tạo sản phẩm đầu tiên."
         />
       ) : (
         <div className="overflow-x-auto rounded-xl border border-border bg-card">
@@ -54,6 +71,9 @@ export default async function AdminProductsPage() {
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Trạng thái
+                </th>
+                <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Thao tác
                 </th>
               </tr>
             </thead>
@@ -89,6 +109,39 @@ export default async function AdminProductsPage() {
                     >
                       {p.is_active ? "Đang bán" : "Ẩn"}
                     </span>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Link
+                        href={`/admin/products/${p.id}/edit`}
+                        className="rounded-md border border-border px-2.5 py-1 text-xs font-medium hover:bg-muted"
+                      >
+                        Sửa
+                      </Link>
+                      <form action={toggleProductActive}>
+                        <input type="hidden" name="id" value={p.id} />
+                        <input
+                          type="hidden"
+                          name="next"
+                          value={p.is_active ? "false" : "true"}
+                        />
+                        <button
+                          type="submit"
+                          className="rounded-md border border-border px-2.5 py-1 text-xs font-medium hover:bg-muted"
+                        >
+                          {p.is_active ? "Ẩn" : "Hiện"}
+                        </button>
+                      </form>
+                      <form action={deleteProduct}>
+                        <input type="hidden" name="id" value={p.id} />
+                        <button
+                          type="submit"
+                          className="rounded-md border border-destructive/40 px-2.5 py-1 text-xs font-medium text-destructive hover:bg-destructive/10"
+                        >
+                          Xoá
+                        </button>
+                      </form>
+                    </div>
                   </td>
                 </tr>
               ))}
