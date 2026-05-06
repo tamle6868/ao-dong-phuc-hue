@@ -3,6 +3,8 @@ import { Inter, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { BUSINESS_INFO, SITE } from "@/lib/constants";
 import { LocalBusinessSchema } from "@/components/seo/local-business-schema";
+import { MetaPixel } from "@/components/analytics/meta-pixel";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -71,6 +73,8 @@ export default function RootLayout({
       <body className="min-h-screen bg-background text-foreground">
         <LocalBusinessSchema />
         {children}
+        <MetaPixel />
+        <GoogleAnalytics />
       </body>
     </html>
   );

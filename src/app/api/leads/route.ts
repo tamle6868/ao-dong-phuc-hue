@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-export const runtime = "edge";
+import { getAdminSupabase } from "@/lib/supabase/admin";
+
+export const runtime = "nodejs";
 
 const LeadSchema = z.object({
   fullName: z.string().min(2, "Vui lòng nhập họ tên"),
@@ -20,6 +22,18 @@ const LeadSchema = z.object({
   variant: z.enum(["quote", "mockup3d"]),
 });
 
+async function hashIp(ip: string): Promise<string | null> {
+  try {
+    const data = new TextEncoder().encode(ip);
+    const buf = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(buf))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(request: Request) {
   let body: unknown;
   try {
@@ -36,13 +50,62 @@ export async function POST(request: Request) {
     );
   }
 
-  // TODO: when Supabase is configured, insert into `leads` table here.
-  // For phase 1 we log the lead — replace with persistence later.
-  console.info("[lead]", {
-    ...parsed.data,
-    receivedAt: new Date().toISOString(),
-    ip: request.headers.get("x-forwarded-for") ?? "unknown",
-  });
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const userAgent = request.headers.get("user-agent");
+  const referer = request.headers.get("referer");
+
+  const utm: Record<string, string> = {};
+  if (referer) {
+    try {
+      const u = new URL(referer);
+      for (const k of [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content",
+        "utm_term",
+      ]) {
+        const v = u.searchParams.get(k);
+        if (v) utm[k] = v;
+      }
+    } catch {
+      // ignore malformed referer
+    }
+  }
+
+  const supabase = getAdminSupabase();
+  if (supabase) {
+    const ipHash = ip ? await hashIp(ip) : null;
+    const { error } = await supabase.from("leads").insert({
+      full_name: parsed.data.fullName,
+      phone: parsed.data.phone,
+      company: parsed.data.company ?? null,
+      qty: parsed.data.qty ?? null,
+      message: parsed.data.message ?? null,
+      source: parsed.data.source,
+      variant: parsed.data.variant,
+      user_agent: userAgent,
+      ip_hash: ipHash,
+      utm_source: utm.utm_source ?? null,
+      utm_medium: utm.utm_medium ?? null,
+      utm_campaign: utm.utm_campaign ?? null,
+      utm_content: utm.utm_content ?? null,
+      utm_term: utm.utm_term ?? null,
+    });
+    if (error) {
+      console.error("[lead] supabase insert failed", error);
+      return NextResponse.json(
+        { error: "Không lưu được, thử lại sau ít phút." },
+        { status: 500 },
+      );
+    }
+  } else {
+    // Fallback when Supabase isn't configured — log only.
+    console.info("[lead] (mock — supabase not configured)", {
+      ...parsed.data,
+      receivedAt: new Date().toISOString(),
+    });
+  }
 
   return NextResponse.json(
     { ok: true, message: "Đã ghi nhận yêu cầu" },

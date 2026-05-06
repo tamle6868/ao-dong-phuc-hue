@@ -2,8 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ChevronRight, Star, Truck, ShieldCheck, Award } from "lucide-react";
-import { getProductBySlug, products } from "@/data/products";
-import { categories } from "@/data/categories";
+import {
+  getProductBySlug,
+  getProductsByCategory,
+  getAllProductSlugs,
+} from "@/lib/data/products";
+import { getCategories } from "@/lib/data/categories";
 import { ProductGallery } from "@/components/product/product-gallery";
 import { AddToCartBar } from "@/components/product/add-to-cart-bar";
 import { ProductGrid } from "@/components/product/product-grid";
@@ -16,12 +20,13 @@ import { formatPriceVND } from "@/lib/utils";
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+  const slugs = await getAllProductSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return buildMetadata({ title: "Không tìm thấy", noIndex: true });
   return buildMetadata({
     title: product.name,
@@ -33,12 +38,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
+  const [categories, sameCategory] = await Promise.all([
+    getCategories(),
+    getProductsByCategory(product.categorySlug),
+  ]);
   const category = categories.find((c) => c.slug === product.categorySlug);
-  const related = products
-    .filter((p) => p.categorySlug === product.categorySlug && p.id !== product.id)
+  const related = sameCategory
+    .filter((p) => p.id !== product.id)
     .slice(0, 4);
 
   const breadcrumbs = [
