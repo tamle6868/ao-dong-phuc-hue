@@ -3,6 +3,9 @@ import { Footer } from "@/components/layout/footer";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { FloatingContact } from "@/components/layout/floating-contact";
 import { PageTransition } from "@/components/layout/page-transition";
+import { StickyQuoteCTA } from "@/components/marketing/sticky-quote-cta";
+import { SocialProofTicker } from "@/components/marketing/social-proof-ticker";
+import { ExitIntent } from "@/components/marketing/exit-intent";
 
 export default function MarketingLayout({
   children,
@@ -18,6 +21,9 @@ export default function MarketingLayout({
       <Footer />
       <BottomNav />
       <FloatingContact />
+      <StickyQuoteCTA />
+      <SocialProofTicker />
+      <ExitIntent />
     </div>
   );
 }

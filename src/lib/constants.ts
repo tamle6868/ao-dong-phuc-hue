@@ -50,6 +50,7 @@ export const PRIMARY_NAV = [
   { href: "/san-pham", label: "Sản phẩm" },
   { href: "/landing/ao-bong-da-thiet-ke", label: "Áo bóng đá" },
   { href: "/landing/dong-phuc-doanh-nghiep", label: "Doanh nghiệp" },
+  { href: "/khach-hang-tieu-bieu", label: "Khách hàng" },
   { href: "/lien-he", label: "Liên hệ" },
 ] as const;
 

@@ -9,7 +9,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
-type Source = "ao-bong-da-thiet-ke" | "dong-phuc-doanh-nghiep" | "footer" | "home";
+type Source =
+  | "ao-bong-da-thiet-ke"
+  | "dong-phuc-doanh-nghiep"
+  | "footer"
+  | "home"
+  | "exit-intent"
+  | "lien-he";
 
 type FormState = {
   fullName: string;
