@@ -142,7 +142,10 @@ export default function AoBongDaLandingPage() {
               Áo bóng đá thiết kế · Vải xuất khẩu
             </Badge>
             <h1 className="font-display text-4xl leading-[0.95] tracking-wide md:text-6xl">
-              ÁO BÓNG ĐÁ <span className="text-primary">PRO ELITE</span>
+              ÁO BÓNG ĐÁ{" "}
+              <span className="bg-gradient-to-r from-rose-300 via-rose-400 to-amber-300 bg-clip-text text-transparent">
+                PRO ELITE
+              </span>
               <br />
               ĐẶT THEO ĐỘI · IN TÊN SỐ MIỄN PHÍ
             </h1>

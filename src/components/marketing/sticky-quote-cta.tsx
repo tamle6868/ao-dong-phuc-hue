@@ -49,7 +49,7 @@ export function StickyQuoteCTA({
 
   return (
     <div
-      aria-hidden={!show}
+      inert={!show}
       className={cn(
         "pointer-events-none fixed inset-x-0 bottom-[72px] z-40 flex justify-center px-3 transition-all duration-300 md:bottom-5",
         show

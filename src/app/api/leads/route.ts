@@ -93,18 +93,30 @@ export async function POST(request: Request) {
       utm_term: utm.utm_term ?? null,
     });
     if (error) {
-      console.error("[lead] supabase insert failed", error);
+      console.error("[lead] supabase insert failed", {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+      });
       return NextResponse.json(
-        { error: "Không lưu được, thử lại sau ít phút." },
+        {
+          error: "Không lưu được, thử lại sau ít phút.",
+          code: error.code ?? null,
+          detail: error.message ?? null,
+        },
         { status: 500 },
       );
     }
   } else {
-    // Fallback when Supabase isn't configured — log only.
-    console.info("[lead] (mock — supabase not configured)", {
-      ...parsed.data,
-      receivedAt: new Date().toISOString(),
+    console.error("[lead] supabase admin client is null — env vars missing", {
+      hasUrl: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
+      hasServiceKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
     });
+    return NextResponse.json(
+      { error: "Hệ thống chưa cấu hình, liên hệ admin." },
+      { status: 503 },
+    );
   }
 
   return NextResponse.json(

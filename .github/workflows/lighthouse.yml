@@ -50,7 +50,6 @@ jobs:
             --collect.url="http://localhost:3000/landing/ao-bong-da-thiet-ke" \
             --collect.url="http://localhost:3000/landing/dong-phuc-doanh-nghiep" \
             --collect.settings.preset=desktop \
-            --assert.preset=lighthouse:no-pwa \
             --assert.assertions.categories:performance="[\"error\",{\"minScore\":0.95}]" \
             --assert.assertions.categories:accessibility="[\"error\",{\"minScore\":0.95}]" \
             --assert.assertions.categories:best-practices="[\"error\",{\"minScore\":0.95}]" \
