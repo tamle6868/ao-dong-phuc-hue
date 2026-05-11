@@ -42,9 +42,9 @@ export function ProductCard({
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-3.5">
-        <h3 className="line-clamp-2 text-sm font-semibold leading-tight text-foreground">
+        <h2 className="line-clamp-2 text-sm font-semibold leading-tight text-foreground">
           {product.name}
-        </h3>
+        </h2>
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
           <Star className="h-3.5 w-3.5 fill-warning text-warning" />
           <span className="font-medium text-foreground">{product.rating}</span>

@@ -10,9 +10,9 @@ export function TrustBar({ partners }: { partners: Partner[] }) {
         <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground">
           Hơn 1.200 đội bóng & doanh nghiệp đã tin chọn
         </p>
-        <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-semibold uppercase tracking-wide text-foreground/60">
+        <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-semibold uppercase tracking-wide text-foreground/80">
           {partners.map((p) => (
-            <li key={p.id} className="opacity-80 transition-opacity hover:opacity-100">
+            <li key={p.id} className="transition-opacity hover:opacity-100">
               {p.name}
             </li>
           ))}

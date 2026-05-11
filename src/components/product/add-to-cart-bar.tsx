@@ -54,6 +54,7 @@ export function AddToCartBar({ product }: { product: Product }) {
             onChange={(e) =>
               setQty(Math.max(min, Number.parseInt(e.target.value || "0", 10)))
             }
+            aria-label="Số lượng"
             className="h-10 w-14 rounded-md border border-border bg-background text-center text-sm font-semibold"
           />
           <motion.button

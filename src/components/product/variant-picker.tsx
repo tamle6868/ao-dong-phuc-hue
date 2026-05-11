@@ -45,7 +45,7 @@ export function VariantPicker({
     <div className="space-y-5">
       <div>
         <div className="mb-2 flex items-baseline justify-between">
-          <h4 className="text-sm font-semibold">Chọn màu</h4>
+          <h3 className="text-sm font-semibold">Chọn màu</h3>
           <span className="text-xs text-muted-foreground">{color}</span>
         </div>
         <div className="flex flex-wrap gap-2.5">
@@ -88,7 +88,7 @@ export function VariantPicker({
 
       <div>
         <div className="mb-2 flex items-baseline justify-between">
-          <h4 className="text-sm font-semibold">Chọn size</h4>
+          <h3 className="text-sm font-semibold">Chọn size</h3>
           <a
             href="#size-guide"
             className="text-xs font-medium text-primary underline-offset-2 hover:underline"
