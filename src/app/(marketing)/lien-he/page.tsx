@@ -26,7 +26,7 @@ export default function LienHePage() {
         </p>
       </header>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
+      <div id="bao-gia" className="mt-10 grid gap-6 scroll-mt-20 md:grid-cols-2">
         <div className="space-y-4">
           {[
             { icon: Phone, title: "Hotline", value: BUSINESS_INFO.phone, href: `tel:${BUSINESS_INFO.phoneE164}` },
@@ -55,7 +55,7 @@ export default function LienHePage() {
           })}
         </div>
 
-        <LeadForm source="footer" variant="quote" />
+        <LeadForm source="lien-he" variant="quote" />
       </div>
     </div>
   );

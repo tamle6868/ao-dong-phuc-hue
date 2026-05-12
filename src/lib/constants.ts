@@ -58,6 +58,16 @@ export const BOTTOM_NAV = [
   { href: "/", label: "Trang chủ", icon: "home" },
   { href: "/san-pham", label: "Sản phẩm", icon: "shirt" },
   { href: "/lien-he#bao-gia", label: "Báo giá", icon: "sparkles", primary: true },
-  { href: "https://zalo.me/0905000000", label: "Zalo", icon: "message-circle", external: true },
-  { href: "tel:+84905000000", label: "Gọi ngay", icon: "phone", external: true },
+  {
+    href: `https://zalo.me/${BUSINESS_INFO.zalo}`,
+    label: "Zalo",
+    icon: "message-circle",
+    external: true,
+  },
+  {
+    href: `tel:${BUSINESS_INFO.phoneE164}`,
+    label: "Gọi ngay",
+    icon: "phone",
+    external: true,
+  },
 ] as const;
