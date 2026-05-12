@@ -38,7 +38,7 @@ export const caseStudies: CaseStudy[] = [
     leadDays: 5,
     outcome: "In tên + số 2 mặt, vải mè kim cương 180 GSM, mặc 1 mùa vẫn như mới.",
     image:
-      "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1200&q=85&auto=format",
+      "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&q=85&auto=format",
     avatar:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
     quote: {

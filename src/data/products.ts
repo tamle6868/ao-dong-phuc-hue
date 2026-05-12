@@ -34,7 +34,7 @@ export const products: Product[] = [
     price: 165000,
     comparePrice: 220000,
     images: [
-      "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1200&q=80&auto=format",
+      "https://images.unsplash.com/photo-1770155590942-49d858bc5401?w=1200&q=80&auto=format",
       "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=1200&q=80&auto=format",
       "https://images.unsplash.com/photo-1577412647305-991150c7d163?w=1200&q=80&auto=format",
     ],

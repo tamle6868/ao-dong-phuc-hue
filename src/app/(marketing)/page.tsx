@@ -130,7 +130,7 @@ export default async function HomePage() {
 
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-white/5 md:aspect-square">
             <Image
-              src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1200&q=85&auto=format"
+              src="https://images.unsplash.com/photo-1770155590942-49d858bc5401?w=1200&q=85&auto=format"
               alt="Áo bóng đá thiết kế cao cấp"
               fill
               priority

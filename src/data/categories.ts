@@ -7,7 +7,7 @@ export const categories: Category[] = [
     name: "Áo bóng đá",
     description: "Áo đá banh thiết kế riêng, in tên số theo yêu cầu, vải mè xuất khẩu.",
     image:
-      "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1200&q=80&auto=format",
+      "https://images.unsplash.com/photo-1770155590942-49d858bc5401?w=1200&q=80&auto=format",
     featured: true,
   },
   {

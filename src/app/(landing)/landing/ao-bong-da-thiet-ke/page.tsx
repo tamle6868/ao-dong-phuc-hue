@@ -184,7 +184,7 @@ export default function AoBongDaLandingPage() {
 
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-white/5">
             <Image
-              src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1200&q=85&auto=format"
+              src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&q=85&auto=format"
               alt="Áo bóng đá Pro Elite"
               fill
               priority

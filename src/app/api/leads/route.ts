@@ -18,6 +18,9 @@ const LeadSchema = z.object({
     "dong-phuc-doanh-nghiep",
     "footer",
     "home",
+    "pdp",
+    "exit-intent",
+    "lien-he",
   ]),
   variant: z.enum(["quote", "mockup3d"]),
 });
