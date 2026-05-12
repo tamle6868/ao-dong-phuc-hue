@@ -51,9 +51,16 @@ export function QuoteSheet({
   const [prevOpen, setPrevOpen] = useState(open);
   if (open !== prevOpen) {
     setPrevOpen(open);
-    if (open && status === "error") {
+    if (open && (status === "error" || status === "success")) {
       setStatus("idle");
       setErrorMessage(null);
+      if (status === "success") {
+        // Fresh form for a new submission; previously-entered name/phone
+        // would otherwise carry over from the last order.
+        setFullName("");
+        setPhone("");
+        setNote("");
+      }
     }
   }
 
