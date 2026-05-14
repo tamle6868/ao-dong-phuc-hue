@@ -17,11 +17,16 @@ export function NameNumberInput({ name, number, onChange }: Props) {
   return (
     <fieldset className="space-y-3 rounded-lg border border-dashed border-primary/40 bg-primary-50 p-4">
       <legend className="px-2 text-xs font-bold uppercase tracking-wider text-primary">
-        In tên & số áo (miễn phí)
+        In tên &amp; số áo (miễn phí)
       </legend>
+      <p className="text-xs leading-relaxed text-foreground/80">
+        Đội trưởng có thể ghi mẫu cho áo đại diện (VD: tên/số của bạn). Danh
+        sách đầy đủ tên-số cho cả đội sẽ được gửi qua Zalo sau khi chốt báo
+        giá — có template Excel sẵn.
+      </p>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className="space-y-1.5 sm:col-span-2">
-          <Label htmlFor={nameId}>Tên in trên áo</Label>
+          <Label htmlFor={nameId}>Tên in mẫu (tuỳ chọn)</Label>
           <Input
             id={nameId}
             value={name}
@@ -48,9 +53,6 @@ export function NameNumberInput({ name, number, onChange }: Props) {
           />
         </div>
       </div>
-      <p className="text-[11px] text-muted-foreground">
-        Để trống nếu chưa có. Bạn có thể gửi danh sách tên-số sau khi đặt.
-      </p>
     </fieldset>
   );
 }

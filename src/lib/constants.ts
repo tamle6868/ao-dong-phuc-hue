@@ -57,7 +57,17 @@ export const PRIMARY_NAV = [
 export const BOTTOM_NAV = [
   { href: "/", label: "Trang chủ", icon: "home" },
   { href: "/san-pham", label: "Sản phẩm", icon: "shirt" },
-  { href: "/landing/dong-phuc-doanh-nghiep", label: "Báo giá", icon: "sparkles", primary: true },
-  { href: "/gio-hang", label: "Giỏ hàng", icon: "shopping-bag" },
-  { href: "/tai-khoan", label: "Tài khoản", icon: "user" },
+  { href: "/lien-he#bao-gia", label: "Báo giá", icon: "sparkles", primary: true },
+  {
+    href: `https://zalo.me/${BUSINESS_INFO.zalo}`,
+    label: "Zalo",
+    icon: "message-circle",
+    external: true,
+  },
+  {
+    href: `tel:${BUSINESS_INFO.phoneE164}`,
+    label: "Gọi ngay",
+    icon: "phone",
+    external: true,
+  },
 ] as const;

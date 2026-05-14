@@ -7,6 +7,7 @@ import type { Product } from "@/types/product";
 import { Button } from "@/components/ui/button";
 import { VariantPicker } from "./variant-picker";
 import { NameNumberInput } from "./name-number-input";
+import { QuoteSheet } from "./quote-sheet";
 import { formatPriceVND } from "@/lib/utils";
 import { BUSINESS_INFO } from "@/lib/constants";
 
@@ -18,9 +19,14 @@ export function AddToCartBar({ product }: { product: Product }) {
     colorHex: string;
   } | null>(null);
   const [printing, setPrinting] = useState({ name: "", number: "" });
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   const total = product.price * qty;
   const min = product.minOrder ?? 1;
+
+  function openSheet() {
+    setSheetOpen(true);
+  }
 
   return (
     <div className="space-y-6">
@@ -94,16 +100,26 @@ export function AddToCartBar({ product }: { product: Product }) {
             <Phone className="h-5 w-5" />
           </a>
           <Button
+            type="button"
             size="lg"
             block
-            disabled={!selection}
+            onClick={openSheet}
             className="h-12 flex-1 md:h-14"
           >
             <ShoppingBag className="h-4 w-4" />
-            {selection ? "Đặt ngay" : "Chọn size & màu"}
+            {selection ? "Đặt ngay" : "Báo giá nhanh"}
           </Button>
         </div>
       </div>
+
+      <QuoteSheet
+        open={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        product={product}
+        selection={selection}
+        qty={qty}
+        printing={printing}
+      />
     </div>
   );
 }

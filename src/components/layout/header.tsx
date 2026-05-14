@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Phone, ShoppingBag } from "lucide-react";
+import { MessageCircle, Phone } from "lucide-react";
 import { BUSINESS_INFO, PRIMARY_NAV } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { BrandMark } from "./brand-mark";
 
 export function Header() {
   const pathname = usePathname();
@@ -13,9 +14,7 @@ export function Header() {
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 md:h-16 md:px-6">
         <Link href="/" className="flex items-center gap-2 tap-shrink">
-          <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground font-display text-xl">
-            Á
-          </span>
+          <BrandMark className="h-9 w-auto" />
           <span className="hidden flex-col leading-tight sm:flex">
             <span className="font-display text-base text-foreground">
               {BUSINESS_INFO.name.toUpperCase()}
@@ -56,6 +55,15 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <a
+            href={`https://zalo.me/${BUSINESS_INFO.zalo}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat Zalo"
+            className="grid h-10 w-10 place-items-center rounded-md border border-border tap-shrink hover:bg-muted md:hidden"
+          >
+            <MessageCircle className="h-4 w-4 text-[#0068ff]" />
+          </a>
+          <a
             href={`tel:${BUSINESS_INFO.phoneE164}`}
             className="hidden h-10 items-center gap-1.5 rounded-md bg-primary px-3 text-sm font-semibold text-primary-foreground tap-shrink md:inline-flex"
             aria-label={`Gọi ${BUSINESS_INFO.phone}`}
@@ -63,13 +71,6 @@ export function Header() {
             <Phone className="h-4 w-4" />
             {BUSINESS_INFO.phone}
           </a>
-          <Link
-            href="/gio-hang"
-            aria-label="Giỏ hàng"
-            className="grid h-10 w-10 place-items-center rounded-md border border-border tap-shrink hover:bg-muted"
-          >
-            <ShoppingBag className="h-4 w-4" />
-          </Link>
         </div>
       </div>
     </header>

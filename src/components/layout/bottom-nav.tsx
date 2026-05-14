@@ -3,17 +3,24 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Home, Shirt, Sparkles, ShoppingBag, User } from "lucide-react";
+import {
+  Home,
+  Shirt,
+  Sparkles,
+  MessageCircle,
+  Phone,
+  type LucideIcon,
+} from "lucide-react";
 import { BOTTOM_NAV } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-const ICONS = {
+const ICONS: Record<string, LucideIcon> = {
   home: Home,
   shirt: Shirt,
   sparkles: Sparkles,
-  "shopping-bag": ShoppingBag,
-  user: User,
-} as const;
+  "message-circle": MessageCircle,
+  phone: Phone,
+};
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -29,10 +36,12 @@ export function BottomNav() {
     >
       <ul className="grid grid-cols-5 px-1.5 pt-1.5">
         {BOTTOM_NAV.map((item) => {
-          const Icon = ICONS[item.icon as keyof typeof ICONS] ?? Home;
+          const Icon = ICONS[item.icon] ?? Home;
+          const external = "external" in item && item.external;
           const active =
-            pathname === item.href ||
-            (item.href !== "/" && pathname?.startsWith(item.href));
+            !external &&
+            (pathname === item.href ||
+              (item.href !== "/" && pathname?.startsWith(item.href)));
 
           if ("primary" in item && item.primary) {
             return (
@@ -51,25 +60,47 @@ export function BottomNav() {
             );
           }
 
+          const className = cn(
+            "tap-shrink relative flex h-14 flex-col items-center justify-center gap-0.5 rounded-md text-[11px] font-medium transition-colors",
+            active
+              ? "text-primary"
+              : "text-muted-foreground hover:text-foreground",
+          );
+          const content = (
+            <>
+              <Icon className={cn("h-5 w-5", active && "scale-110")} />
+              <span>{item.label}</span>
+              {active && (
+                <motion.span
+                  layoutId="bottom-nav-dot"
+                  className="absolute -top-0.5 h-1 w-1 rounded-full bg-primary"
+                />
+              )}
+            </>
+          );
+
           return (
             <li key={item.href}>
-              <Link
-                href={item.href}
-                className={cn(
-                  "tap-shrink relative flex h-14 flex-col items-center justify-center gap-0.5 rounded-md text-[11px] font-medium transition-colors",
-                  active ? "text-primary" : "text-muted-foreground hover:text-foreground",
-                )}
-                aria-current={active ? "page" : undefined}
-              >
-                <Icon className={cn("h-5 w-5", active && "scale-110")} />
-                <span>{item.label}</span>
-                {active && (
-                  <motion.span
-                    layoutId="bottom-nav-dot"
-                    className="absolute -top-0.5 h-1 w-1 rounded-full bg-primary"
-                  />
-                )}
-              </Link>
+              {external ? (
+                <a
+                  href={item.href}
+                  className={className}
+                  aria-label={item.label}
+                  {...(item.href.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
+                  {content}
+                </a>
+              ) : (
+                <Link
+                  href={item.href}
+                  className={className}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {content}
+                </Link>
+              )}
             </li>
           );
         })}

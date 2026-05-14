@@ -61,7 +61,8 @@ export function Footer() {
             <li><Link href="/san-pham" className="hover:text-white">Tất cả sản phẩm</Link></li>
             <li><Link href="/landing/ao-bong-da-thiet-ke" className="hover:text-white">Áo bóng đá</Link></li>
             <li><Link href="/landing/dong-phuc-doanh-nghiep" className="hover:text-white">Đồng phục doanh nghiệp</Link></li>
-            <li><Link href="/san-pham" className="hover:text-white">Đồng phục lớp</Link></li>
+            <li><Link href="/san-pham?danh-muc=dong-phuc-lop" className="hover:text-white">Đồng phục lớp</Link></li>
+            <li><Link href="/khach-hang-tieu-bieu" className="hover:text-white">Khách hàng tiêu biểu</Link></li>
           </ul>
         </div>
 
@@ -72,8 +73,9 @@ export function Footer() {
           <ul className="space-y-2 text-sm text-white/70">
             <li><Link href="/lien-he" className="hover:text-white">Liên hệ báo giá</Link></li>
             <li><Link href="/landing/dong-phuc-doanh-nghiep" className="hover:text-white">Mẫu 3D miễn phí</Link></li>
-            <li><Link href="/" className="hover:text-white">Chính sách giao hàng</Link></li>
-            <li><Link href="/" className="hover:text-white">Chính sách đổi trả</Link></li>
+            <li><Link href="/chinh-sach/giao-hang" className="hover:text-white">Chính sách giao hàng</Link></li>
+            <li><Link href="/chinh-sach/doi-tra" className="hover:text-white">Chính sách đổi trả</Link></li>
+            <li><Link href="/chinh-sach/bao-mat" className="hover:text-white">Chính sách bảo mật</Link></li>
           </ul>
         </div>
 
