@@ -1,7 +1,17 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ChevronRight, Star, Truck, ShieldCheck, Award } from "lucide-react";
+import {
+  Award,
+  Building2,
+  ChevronRight,
+  FileText,
+  Languages,
+  ShieldCheck,
+  Star,
+  Truck,
+  Users,
+} from "lucide-react";
 import {
   getProductBySlug,
   getProductsByCategory,
@@ -58,6 +68,36 @@ export default async function ProductDetailPage({ params }: Props) {
       : []),
     { name: product.name, href: `/san-pham/${product.slug}` },
   ];
+
+  // Customer-journey badges differ per persona. Football customers care about
+  // roster + in-game wash durability; B2B cares about VAT + brand consistency;
+  // event/class buyers care about turn-around speed.
+  const persona: "football" | "b2b" | "generic" =
+    product.categorySlug === "ao-bong-da"
+      ? "football"
+      : product.categorySlug === "dong-phuc-doanh-nghiep" ||
+          product.categorySlug === "dong-phuc-lop"
+        ? "b2b"
+        : "generic";
+
+  const trustBadges =
+    persona === "football"
+      ? [
+          { icon: Users, label: "Đặt theo đội từ 11 áo" },
+          { icon: Languages, label: "In tên & số miễn phí" },
+          { icon: Award, label: "Vải mè 4 chiều xuất khẩu" },
+        ]
+      : persona === "b2b"
+        ? [
+            { icon: FileText, label: "Xuất hoá đơn VAT" },
+            { icon: Building2, label: "Công nợ 30 ngày từ 50 áo" },
+            { icon: Award, label: "Thêu logo brand miễn phí" },
+          ]
+        : [
+            { icon: Truck, label: "Giao 3-5 ngày" },
+            { icon: ShieldCheck, label: "Bảo hành 12 tháng" },
+            { icon: Award, label: "Vải xuất khẩu" },
+          ];
 
   return (
     <>
@@ -132,7 +172,11 @@ export default async function ProductDetailPage({ params }: Props) {
                 )}
               </div>
               <p className="mt-1.5 text-xs text-muted-foreground">
-                Giá đã gồm in tên + số áo. {product.minOrder ? `MOQ ${product.minOrder} áo / đội.` : ""}
+                {persona === "football"
+                  ? `Giá đã bao gồm in tên + số áo cho cả đội.${product.minOrder ? ` MOQ ${product.minOrder} áo / đội.` : ""}`
+                  : persona === "b2b"
+                    ? `Giá đã bao gồm thêu logo brand.${product.minOrder ? ` MOQ ${product.minOrder} áo / đơn. Xuất VAT chuẩn doanh nghiệp.` : ""}`
+                    : `Giá đã bao gồm in/thêu cơ bản theo brief.${product.minOrder ? ` MOQ ${product.minOrder} áo.` : ""}`}
               </p>
             </div>
 
@@ -141,18 +185,15 @@ export default async function ProductDetailPage({ params }: Props) {
             </p>
 
             <div className="grid grid-cols-3 gap-2 text-center text-[11px]">
-              <div className="rounded-md border border-border bg-background p-2.5">
-                <Truck className="mx-auto h-4 w-4 text-primary" />
-                <p className="mt-1 font-semibold">Giao 3-5 ngày</p>
-              </div>
-              <div className="rounded-md border border-border bg-background p-2.5">
-                <ShieldCheck className="mx-auto h-4 w-4 text-primary" />
-                <p className="mt-1 font-semibold">Bảo hành 12T</p>
-              </div>
-              <div className="rounded-md border border-border bg-background p-2.5">
-                <Award className="mx-auto h-4 w-4 text-primary" />
-                <p className="mt-1 font-semibold">Vải xuất khẩu</p>
-              </div>
+              {trustBadges.map(({ icon: Icon, label }) => (
+                <div
+                  key={label}
+                  className="rounded-md border border-border bg-background p-2.5"
+                >
+                  <Icon className="mx-auto h-4 w-4 text-primary" />
+                  <p className="mt-1 font-semibold leading-tight">{label}</p>
+                </div>
+              ))}
             </div>
 
             <AddToCartBar product={product} />
