@@ -19,7 +19,8 @@ import { BUSINESS_INFO } from "@/lib/constants";
 import { formatPriceVND } from "@/lib/utils";
 
 type Selection = { size: string; color: string; colorHex: string };
-type Printing = { name: string; number: string };
+
+export type QuoteSubmissionVariant = "quote" | "mockup3d";
 
 type Props = {
   open: boolean;
@@ -27,7 +28,27 @@ type Props = {
   product: Product;
   selection: Selection | null;
   qty: number;
-  printing: Printing;
+  /** Title of the sheet — varies per persona (football / B2B / generic). */
+  title: string;
+  /** Sub-heading line shown under the title. */
+  subtitle?: string;
+  /**
+   * Submission variant — "quote" for normal requests, "mockup3d" for the
+   * football "Xem áo 3D" CTA. Maps to `variants` enum in `/api/leads`.
+   */
+  submissionVariant?: QuoteSubmissionVariant;
+  /**
+   * Extra summary text shown under the product line — for football this is the
+   * roster summary; for B2B it's the company info. Plain text.
+   */
+  detailSummary?: string;
+  /**
+   * Prefix prepended to `message` posted to /api/leads. E.g. "[MẪU]" so admin
+   * inbox can quickly tell a sample request from a normal quote.
+   */
+  messagePrefix?: string;
+  /** Optional CTA button label — overrides the default "Gửi yêu cầu...". */
+  ctaLabel?: string;
 };
 
 export function QuoteSheet({
@@ -36,7 +57,12 @@ export function QuoteSheet({
   product,
   selection,
   qty,
-  printing,
+  title,
+  subtitle,
+  submissionVariant = "quote",
+  detailSummary,
+  messagePrefix,
+  ctaLabel,
 }: Props) {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -55,8 +81,6 @@ export function QuoteSheet({
       setStatus("idle");
       setErrorMessage(null);
       if (status === "success") {
-        // Fresh form for a new submission; previously-entered name/phone
-        // would otherwise carry over from the last order.
         setFullName("");
         setPhone("");
         setNote("");
@@ -79,17 +103,20 @@ export function QuoteSheet({
 
   const total = product.price * qty;
 
-  const orderSummary = [
+  const baseSummary = [
     `[Mã: ${product.slug}] ${product.name}`,
     selection ? `Màu: ${selection.color}` : null,
-    selection ? `Size: ${selection.size}` : null,
+    selection ? `Size mẫu: ${selection.size}` : null,
     `SL: ${qty} áo`,
-    printing.name ? `Tên in: ${printing.name}` : null,
-    printing.number ? `Số áo: ${printing.number}` : null,
+    detailSummary ? detailSummary : null,
     note ? `Ghi chú: ${note}` : null,
   ]
     .filter(Boolean)
     .join(" | ");
+
+  const orderSummary = messagePrefix
+    ? `${messagePrefix} ${baseSummary}`
+    : baseSummary;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -105,7 +132,7 @@ export function QuoteSheet({
           qty: String(qty),
           message: orderSummary,
           source: "pdp",
-          variant: "quote",
+          variant: submissionVariant,
         }),
       });
       if (!res.ok) {
@@ -119,8 +146,16 @@ export function QuoteSheet({
     }
   }
 
-  const zaloText = encodeURIComponent(`Chào shop, mình muốn đặt: ${orderSummary}. Vui lòng tư vấn giúp mình.`);
+  const zaloText = encodeURIComponent(
+    `Chào shop, mình muốn đặt: ${orderSummary}. Vui lòng tư vấn giúp mình.`,
+  );
   const zaloHref = `https://zalo.me/${BUSINESS_INFO.zalo}?text=${zaloText}`;
+
+  const resolvedCta =
+    ctaLabel ??
+    (submissionVariant === "mockup3d"
+      ? "Gửi yêu cầu xem mockup 3D"
+      : "Gửi yêu cầu — gọi lại trong 15 phút");
 
   return (
     <AnimatePresence>
@@ -151,10 +186,10 @@ export function QuoteSheet({
                   id="quote-sheet-title"
                   className="font-display text-lg tracking-wide md:text-xl"
                 >
-                  YÊU CẦU ĐẶT ÁO
+                  {title}
                 </h2>
                 <p className="text-[11px] text-muted-foreground">
-                  Tư vấn viên gọi lại trong 15 phút (giờ hành chính)
+                  {subtitle ?? "Tư vấn viên gọi lại trong 15 phút (giờ hành chính)"}
                 </p>
               </div>
               <button
@@ -202,13 +237,22 @@ export function QuoteSheet({
                     {selection ? (
                       <>
                         Màu <span className="text-foreground">{selection.color}</span>{" "}
-                        · Size <span className="text-foreground">{selection.size}</span>{" "}
-                        · SL <span className="text-foreground">{qty} áo</span>
+                        · Size mẫu{" "}
+                        <span className="text-foreground">{selection.size}</span> · SL{" "}
+                        <span className="text-foreground">{qty} áo</span>
                       </>
                     ) : (
-                      <>SL <span className="text-foreground">{qty} áo</span> · Vui lòng chọn màu &amp; size</>
+                      <>
+                        SL <span className="text-foreground">{qty} áo</span> · Vui
+                        lòng chọn màu &amp; size
+                      </>
                     )}
                   </p>
+                  {detailSummary && (
+                    <p className="mt-1 break-words text-[11px] leading-relaxed text-muted-foreground">
+                      {detailSummary}
+                    </p>
+                  )}
                   <div className="mt-1.5 flex items-baseline gap-2">
                     <span className="text-[11px] uppercase text-muted-foreground">
                       Tạm tính
@@ -277,7 +321,7 @@ export function QuoteSheet({
                   ) : (
                     <Send className="h-4 w-4" />
                   )}
-                  Gửi yêu cầu — gọi lại trong 15 phút
+                  {resolvedCta}
                 </Button>
 
                 <div className="mt-3 grid grid-cols-2 gap-2">

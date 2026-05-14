@@ -164,6 +164,35 @@ export default function DoanhNghiepLandingPage() {
 
       <PricingTable />
 
+      {/* B2B PDP CTA — distinct from football flow */}
+      <section className="mx-auto max-w-5xl px-4 py-10">
+        <div className="rounded-2xl border border-primary/20 bg-primary-50 p-5 md:p-7">
+          <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-primary">
+                B2B · Polo Premium
+              </p>
+              <h3 className="mt-1 font-display text-xl tracking-wide md:text-2xl">
+                ĐẶT KÈM HÓA ĐƠN VAT · CÔNG NỢ 30 NGÀY · ÁO MẪU TRƯỚC
+              </h3>
+              <p className="mt-1.5 max-w-xl text-sm text-muted-foreground">
+                Trang sản phẩm có form B2B riêng: nhập tên công ty + MST,
+                checkbox VAT/công nợ, upload logo. Có thêm CTA &quot;Yêu cầu
+                áo mẫu&quot; để bộ phận mua hàng duyệt vải + form trước khi sản
+                xuất lô lớn.
+              </p>
+            </div>
+            <Link
+              href="/san-pham/polo-doanh-nghiep-premium"
+              className={cn(buttonVariants({ size: "lg" }))}
+            >
+              Mở form B2B
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="bg-muted/40 py-14">
         <div className="mx-auto max-w-5xl px-4">

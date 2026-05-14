@@ -226,6 +226,30 @@ export default function AoBongDaLandingPage() {
           </p>
         </header>
         <PricingCalculator tiers={PRICING_TIERS} unitLabel="áo" />
+
+        <div className="mt-6 rounded-2xl border border-primary/20 bg-primary-50 p-5 md:p-6">
+          <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-primary">
+                Đặt thẳng theo đội
+              </p>
+              <h3 className="mt-1 font-display text-xl tracking-wide md:text-2xl">
+                NHẬP DANH SÁCH CẢ ĐỘI · LẤY MOCKUP 3D TRƯỚC
+              </h3>
+              <p className="mt-1.5 text-sm text-muted-foreground">
+                Trên trang sản phẩm có công cụ nhập roster 11+ cầu thủ ngay
+                trong form đặt — designer trả mock 3D đúng tên/số trong 30 phút.
+              </p>
+            </div>
+            <Link
+              href="/san-pham/ao-bong-da-pro-elite"
+              className={cn(buttonVariants({ size: "lg" }))}
+            >
+              Mở roster builder
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* PROCESS */}
